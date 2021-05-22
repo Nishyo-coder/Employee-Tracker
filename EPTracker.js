@@ -36,7 +36,7 @@ const runSearch = () => {
       message: 'What would you like to do?',
       choices: [
         'Add Department',
-        'Add Roles',
+        'Add Role',
         'Add Employee',
         'View All Departments',
         'View All Roles',
@@ -45,24 +45,28 @@ const runSearch = () => {
     })
     .then((answer) => {
       switch (answer.action) {
-        case 'Find songs by artist':
-          artistSearch();
+        case 'Add Department':
+          addDept();
           break;
 
-        case 'Find all artists who appear more than once':
-          multiSearch();
+          case 'Add Role':
+            addRole();
+            break;
+
+            case 'Add Role':
+              addRole();
+              break;
+
+        case 'View All Departments':
+          deptSearch();
           break;
 
-        case 'Find data within a specific range':
-          rangeSearch();
+        case 'View All Roles':
+          roleSearch();
           break;
 
-        case 'Search for a specific song':
-          songSearch();
-          break;
-
-        case 'Find artists with a top song and top album in the same year':
-          songAndAlbumSearch();
+        case 'View All Employees':
+          employeeSearch();
           break;
 
         default:
