@@ -15,12 +15,12 @@ const connection = mysql.createConnection({
   database: 'EP_TrackerDB',
 });
 
+
 connection.connect((err) => {
   if (err) throw err;
   console.log(`connected as id ${connection.threadId}`);
   runSearch();
 });
-
 
 const runSearch = () => {
   inquirer
@@ -70,6 +70,8 @@ const runSearch = () => {
     });
 };
 
+// * View departments, roles, employees
+
 //use the Read function to view all employees
 const employeeSearch = () => {
   console.log('Selecting all employees...\n');
@@ -103,43 +105,57 @@ const roleSearch = () => {
   });
 };
 
+const addEmployee = () => {
+  inquirer
+    .prompt({
+      name: 'Add Employee?',
+      type: 'list',
+      message: 'Would you like to add a new employee?',
+      choices: ['YES', 'NO', 'EXIT'],
+    })
+    .then((answer) => {
+      switch (answer.action) {
+        case 'YES':
+          addnewEmployee();
+          break;
 
-// const employeeSearch = () => {
-//   inquirer
-//     .prompt({
-//       name: 'employee',
-//       type: 'input',
-//       message: 'Which employee would you like to search for?',
-//     })
-//     .then((answer) => {
-//       const query = 'SELECT last_name, first_name, emp_id, role_id FROM employee WHERE ?';
-//       connection.query(query, { last_name: answer.last_name }, (err, res) => {
-//         res.forEach(({ last_name, first_name}) => {
-//           console.log(
-//             `last_name: ${last_name} || first_name: ${first_name}`
-//           );
-//         });
-//         runSearch();
-//       });
-//     });
-// };
+          case 'NO':
+            addEmployee();
+            break;
 
-// const deptSearch = () => {
-//   inquirer
-//     .prompt({
-//       name: 'department',
-//       type: 'input',
-//       message: 'What department would you like to search for?',
-//     })
-//     .then((answer) => {
-//       const query = 'SELECT department_id, Department, FROM departments WHERE ?';
-//       connection.query(query, { Department: answer.Department }, (err, res) => {
-//         res.forEach(({ department_id, Department}) => {
-//           console.log(
-//             `department_id: ${department_id} || Department: ${Department}`
-//           );
-//         });
-//         runSearch();
-//       });
-//     });
-// };
+            case 'EXIT':
+        default:
+          console.log(`Invalid action: ${answer.action}`);
+          break;
+      }
+    });
+};
+
+// function to handle posting new items up for auction
+const addnewEmployee = () => {
+  // prompt for info about the item being put up for auction
+  inquirer
+    .prompt([
+      {
+        name: 'employee',
+        type: 'input',
+        message: 'What is the item you would like to submit?',
+      },
+      {
+        name: 'category',
+        type: 'input',
+        message: 'What category would you like to place your auction in?',
+      },
+      {
+        name: 'startingBid',
+        type: 'input',
+        message: 'What would you like your starting bid to be?',
+        // validate(value) {
+        //   if (isNaN(value) === false) {
+        //     return true;
+        //   }
+        //   return false;
+        },
+      
+    ])
+  };
