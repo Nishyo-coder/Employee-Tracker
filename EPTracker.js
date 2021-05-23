@@ -56,6 +56,10 @@ const runSearch = () => {
             case 'Add Role':
               addRole();
               break;
+
+              case 'Add Role':
+              updateEmployeeRole();
+              break;
         default:
           console.log(`Invalid action: ${answer.action}`);
           break;
@@ -272,23 +276,7 @@ const addnewRole = () => {
     });
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const updateRole = () => {
+const updateEmployeeRole = () => {
 //   console.log('Updating all Rocky Road quantities...\n');
 //   const query = connection.query(
 //     'UPDATE products SET ? WHERE ?',
