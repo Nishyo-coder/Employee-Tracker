@@ -120,23 +120,23 @@ const addEmployee = () => {
       }
     });
 };
-// function to handle posting new items up for auction
+// function to add new employee new items up for auction
 const addnewEmployee = () => {
-  // prompt for info about the item being put up for auction
+  // prompt
   inquirer
     .prompt([
       {
-        name: 'last name',
+        name: 'last_name',
         type: 'input',
         message: 'What is the employees last name?',
       },
       {
-        name: 'first name',
+        name: 'first_name',
         type: 'input',
         message: 'What is the employees first name?',
       },
       {
-        name: 'role',
+        name: 'role_id',
         type: 'input',
         message: 'Enter the employee id.',
       },
