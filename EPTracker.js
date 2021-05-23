@@ -46,7 +46,7 @@ const runSearch = () => {
           break;
 
         case 'Add Department':
-          updateDept();
+          addDept();
           break;
 
           case 'Add Employee':
@@ -54,7 +54,7 @@ const runSearch = () => {
             break;
 
             case 'Add Role':
-              updateRole();
+              addRole();
               break;
         default:
           console.log(`Invalid action: ${answer.action}`);
@@ -109,7 +109,7 @@ const addEmployee = () => {
       choices: ['YES', 'NO', 'EXIT'],
     })
     .then((answer) => {
-      // based on their answer, either call the bid or the post functions
+      // based on their answer, either call the yes or no functions
       if (answer.yesOrNo === 'YES') {
         addnewEmployee();
       } else if (answer.yesOrNo === 'NO') {
@@ -120,7 +120,7 @@ const addEmployee = () => {
       }
     });
 };
-// function to add new employee new items up for auction
+// function to add new employee 
 const addnewEmployee = () => {
   // prompt
   inquirer
@@ -159,6 +159,134 @@ const addnewEmployee = () => {
       );
     });
 };
+
+//function which prompts the user for what action they should take
+const addDept = () => {
+  inquirer
+    .prompt({
+      name: 'yesOrNo',
+      type: 'list',
+      message: 'Would you like to add a new department [YES] or [NO]?',
+      choices: ['YES', 'NO', 'EXIT'],
+    })
+    .then((answer) => {
+      // based on their answer, either call the yes or no functions
+      if (answer.yesOrNo === 'YES') {
+        addnewDept();
+      } else if (answer.yesOrNo === 'NO') {
+        //returns user back to the main
+        runSearch();
+      } else {
+        connection.end();
+      }
+    });
+};
+
+// function to add new department 
+const addnewDept = () => {
+  // prompt
+  inquirer
+    .prompt([
+      {
+        name: 'Department',
+        type: 'input',
+        message: 'What department would you like to add?',
+      },
+    ])
+    .then((answer) => {
+      // when finished prompting, insert a new department into the db with that info
+      connection.query(
+        'INSERT INTO departments SET ?',
+        {
+          Department: answer.Department,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log('The department was added successfully!');
+          // re-prompt the user for if they want to add another employee
+          addDept();
+        }
+      );
+    });
+};
+
+//function which prompts the user for what action they should take
+const addRole = () => {
+  inquirer
+    .prompt({
+      name: 'yesOrNo',
+      type: 'list',
+      message: 'Would you like to add a new role [YES] or [NO]?',
+      choices: ['YES', 'NO', 'EXIT'],
+    })
+    .then((answer) => {
+      // based on their answer, either call the yes or no functions
+      if (answer.yesOrNo === 'YES') {
+        addnewRole();
+      } else if (answer.yesOrNo === 'NO') {
+        //returns user back to the main
+        runSearch();
+      } else {
+        connection.end();
+      }
+    });
+};
+
+// function to add new role 
+const addnewRole = () => {
+  // prompt
+  inquirer
+    .prompt([
+      {
+        name: 'title',
+        type: 'input',
+        message: 'What is the position title?',
+      },
+      {
+        name: 'SALARY',
+        type: 'input',
+        message: 'What is the position salary?',
+      },
+      {
+        name: 'department_id',
+        type: 'input',
+        message: 'Enter a department id.',
+      },
+    ])
+    .then((answer) => {
+      // when finished prompting, insert a new position into the db with that info
+      connection.query(
+        'INSERT INTO ROLE SET ?',
+        {
+          title: answer.title,
+          SALARY: answer.SALARY,
+          department_id: answer.department_id,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log('The position was added successfully!');
+          // re-prompt the user for if they want to add another position
+          addRole();
+        }
+      );
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // const updateRole = () => {
 //   console.log('Updating all Rocky Road quantities...\n');
