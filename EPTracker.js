@@ -25,9 +25,10 @@ const runSearch = () => {
         'View All Departments',
         'View All Employees',
         'View All Roles',
+        'View Employee Roles',
         'Add Department',
         'Add Employee',
-        'Add Role', 
+        'Add Role',
       ],
     })
     .then((answer) => {
@@ -45,6 +46,10 @@ const runSearch = () => {
           roleSearch();
           break;
 
+          case 'View Employee Roles':
+            EmployeeandRoleSearch();
+          break;
+
         case 'Add Department':
           addDept();
           break;
@@ -53,14 +58,11 @@ const runSearch = () => {
             addEmployee();
             break;
 
-            case 'Add Role':
+          case 'Add Role':
               addRole();
               break;
-
-              case 'Add Role':
-              updateEmployeeRole();
-              break;
-        default:
+      
+          default:
           console.log(`Invalid action: ${answer.action}`);
           break;
       }
@@ -276,25 +278,36 @@ const addnewRole = () => {
     });
 };
 
-const updateEmployeeRole = () => {
-//   console.log('Updating all Rocky Road quantities...\n');
-//   const query = connection.query(
-//     'UPDATE products SET ? WHERE ?',
-//     [
-//       {
-//         quantity: 100,
-//       },
-//       {
-//         flavor: 'Rocky Road',
-//       },
-//     ],
-//     (err, res) => {
-//       if (err) throw err;
-//       console.log(`${res.affectedRows} products updated!\n`);
-//       // Call deleteProduct AFTER the UPDATE completes
-//       deleteProduct();
-//     }
-//   );
+const EmployeeandRoleSearch = () => {
+  inquirer
+    .prompt({
+      name: 'last_name',
+      type: 'input',
+      message: 'Search for an employee by last name',
+    })
+    .then((answer) => {
+      let query =
+        'SELECT employee.last_name, employee.first_name, employee.emp_id, employee.role_id ';
+      query +=
+        'FROM employee INNER JOIN ROLE ON (ROLE.title = employee.last_name AND ROLE.title ';
+      query +=
+        '= ROLE.title) WHERE (employee.emp_id = ? AND ROLE.emp_id = ?) ORDER BY ROLE.title, ROLE.emp_id';
+
+      connection.query(query, [answer.last_name, answer.last_name], (err, res) => {
+        console.log(`${res.length} matches found!`);
+        res.forEach(({ title, last_name, first_name}, i) => {
+          const num = i + 1;
+          console.log(
+            `${num} title: ${title} last_name: ${last_name} || first_name: ${first_name}`
+        );
+        }
+          );
+
+      
+        runSearch();
+      });
+    });
+};
 
 connection.connect((err) => {
   if (err) throw err;
