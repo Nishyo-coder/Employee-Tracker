@@ -105,57 +105,69 @@ const roleSearch = () => {
   });
 };
 
+// function which prompts the user for what action they should take
 const addEmployee = () => {
   inquirer
     .prompt({
-      name: 'Add Employee?',
+      name: 'postOrBid',
       type: 'list',
-      message: 'Would you like to add a new employee?',
+      message: 'Would you like to add a new employee [YES] or [NO]?',
       choices: ['YES', 'NO', 'EXIT'],
     })
     .then((answer) => {
-      switch (answer.action) {
-        case 'YES':
-          addnewEmployee();
-          break;
-
-          case 'NO':
-            addEmployee();
-            break;
-
-            case 'EXIT':
-        default:
-          console.log(`Invalid action: ${answer.action}`);
-          break;
+      // based on their answer, either call the bid or the post functions
+      if (answer.postOrBid === 'YES') {
+        addnewEmployee();
+      } else if (answer.postOrBid === 'NO') {
+        connection.end();
+      } else {
+        connection.end();
       }
     });
 };
-
 // function to handle posting new items up for auction
 const addnewEmployee = () => {
   // prompt for info about the item being put up for auction
   inquirer
     .prompt([
       {
-        name: 'employee',
+        name: 'last name',
         type: 'input',
-        message: 'What is the item you would like to submit?',
+        message: 'What is the employees last name?',
       },
       {
-        name: 'category',
+        name: 'first name',
         type: 'input',
-        message: 'What category would you like to place your auction in?',
+        message: 'What is the employees first name?',
       },
       {
-        name: 'startingBid',
+        name: 'role',
         type: 'input',
-        message: 'What would you like your starting bid to be?',
-        // validate(value) {
-        //   if (isNaN(value) === false) {
-        //     return true;
-        //   }
-        //   return false;
+        message: 'Enter the employee id.',
+        validate(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
         },
-      
+      },
     ])
-  };
+    .then((answer) => {
+      // when finished prompting, insert a new item into the db with that info
+      connection.query(
+        'INSERT INTO employee SET ?',
+        // QUESTION: What does the || 0 do?
+        {
+          last_name: answer.last_name,
+          first_name: answer.first_name,
+          role_id: answer.role_id,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log('The employee was added successfully!');
+          // re-prompt the user for if they want to add another employee
+          addEmployee();
+        }
+      );
+    });
+};
