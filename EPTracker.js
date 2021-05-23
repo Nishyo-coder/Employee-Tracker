@@ -46,7 +46,7 @@ const runSearch = () => {
           break;
 
         case 'Add Department':
-          addDept();
+          updateDept();
           break;
 
           case 'Add Employee':
@@ -54,7 +54,7 @@ const runSearch = () => {
             break;
 
             case 'Add Role':
-              addRole();
+              updateRole();
               break;
         default:
           console.log(`Invalid action: ${answer.action}`);
@@ -113,7 +113,7 @@ const addEmployee = () => {
       if (answer.yesOrNo === 'YES') {
         addnewEmployee();
       } else if (answer.yesOrNo === 'NO') {
-        //returns user back to the main menu
+        //returns user back to the main
         runSearch();
       } else {
         connection.end();
@@ -139,12 +139,6 @@ const addnewEmployee = () => {
         name: 'role',
         type: 'input',
         message: 'Enter the employee id.',
-        validate(value) {
-          if (isNaN(value) === false) {
-            return true;
-          }
-          return false;
-        },
       },
     ])
     .then((answer) => {
@@ -165,6 +159,26 @@ const addnewEmployee = () => {
       );
     });
 };
+
+// const updateRole = () => {
+//   console.log('Updating all Rocky Road quantities...\n');
+//   const query = connection.query(
+//     'UPDATE products SET ? WHERE ?',
+//     [
+//       {
+//         quantity: 100,
+//       },
+//       {
+//         flavor: 'Rocky Road',
+//       },
+//     ],
+//     (err, res) => {
+//       if (err) throw err;
+//       console.log(`${res.affectedRows} products updated!\n`);
+//       // Call deleteProduct AFTER the UPDATE completes
+//       deleteProduct();
+//     }
+//   );
 
 connection.connect((err) => {
   if (err) throw err;
