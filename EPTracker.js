@@ -15,13 +15,6 @@ const connection = mysql.createConnection({
   database: 'EP_TrackerDB',
 });
 
-
-connection.connect((err) => {
-  if (err) throw err;
-  console.log(`connected as id ${connection.threadId}`);
-  runSearch();
-});
-
 const runSearch = () => {
   inquirer
     .prompt({
@@ -79,7 +72,8 @@ const employeeSearch = () => {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.log(res);
-    connection.end();
+    // / re-prompt the user to continue to choose from main menu
+    runSearch();
   });
 };
 
@@ -90,7 +84,7 @@ const deptSearch = () => {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.log(res);
-    connection.end();
+    runSearch();
   });
 };
 
@@ -101,7 +95,7 @@ const roleSearch = () => {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.log(res);
-    connection.end();
+    runSearch();
   });
 };
 
@@ -109,17 +103,18 @@ const roleSearch = () => {
 const addEmployee = () => {
   inquirer
     .prompt({
-      name: 'postOrBid',
+      name: 'yesOrNo',
       type: 'list',
       message: 'Would you like to add a new employee [YES] or [NO]?',
       choices: ['YES', 'NO', 'EXIT'],
     })
     .then((answer) => {
       // based on their answer, either call the bid or the post functions
-      if (answer.postOrBid === 'YES') {
+      if (answer.yesOrNo === 'YES') {
         addnewEmployee();
-      } else if (answer.postOrBid === 'NO') {
-        connection.end();
+      } else if (answer.yesOrNo === 'NO') {
+        //returns user back to the main menu
+        runSearch();
       } else {
         connection.end();
       }
@@ -153,10 +148,9 @@ const addnewEmployee = () => {
       },
     ])
     .then((answer) => {
-      // when finished prompting, insert a new item into the db with that info
+      // when finished prompting, insert a new employee into the db with that info
       connection.query(
         'INSERT INTO employee SET ?',
-        // QUESTION: What does the || 0 do?
         {
           last_name: answer.last_name,
           first_name: answer.first_name,
@@ -171,3 +165,9 @@ const addnewEmployee = () => {
       );
     });
 };
+
+connection.connect((err) => {
+  if (err) throw err;
+  console.log(`connected as id ${connection.threadId}`);
+  runSearch();
+});
