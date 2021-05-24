@@ -278,15 +278,20 @@ const addnewRole = () => {
     });
 };
 
+//working on join statements. 
+
+
 // const EmployeeandRoleSearch = () => {
 //   let query = 
-//   'SELECT employee.last_name, employee.first_name, ROLE.title, ROLE.SALARY ';
-//   query +=
-//   'FROM employee LEFT JOIN ROLE ON (ROLE.title = employee.last_name AND employee.last_name ORDER BY ROLE.title, employee.last_name';
+//   'SELECT * FROM employee employee.last_name, employee.first_name, ROLE.title, ROLE.SALARY ';
+//   query += "INNER JOIN ROLE on employee.emp_id = ROLES.dept_id";
+// //   'FROM employee LEFT JOIN ROLE ON (ROLE.title = employee.last_name AND employee.last_name ORDER BY ROLE.title, employee.last_name';
   
 //   connection.query(query, (err, res) => {
-//     // console.log(`${res.length} matches found!`);
-  
+//     console.table('View Employee Roles', res);
+//   EmployeeandRoleSearch()
+//   })
+// }
 //   // console.log('Selecting all employees...\n');
 //   // connection.query('SELECT * FROM employee', (err, res) => {
 //   //   if (err) throw err;
