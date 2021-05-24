@@ -68,3 +68,20 @@ VALUES ("Beam", "Jim", 1237);
 INSERT INTO employee (last_name, first_name, role_id)
 VALUES ("McDowells", "", 1236);
 
+);
+SELECT * FROM departments;
+select * from employee;
+select * from ROLE;
+
+
+-- show ALL books, even if we don't know the author
+-- LEFT JOIN returns all of the values from the left table, and the matching ones from the right table
+SELECT title, SALARY
+FROM ROLE
+LEFT JOIN employee ON department_id = emp_id;
+
+-- -- show ALL books, even if we don't know the author
+-- -- RIGHT JOIN returns all of the values from the right table, and the matching ones from the left table
+-- SELECT title, firstName, lastName
+-- FROM books
+-- RIGHT JOIN authors ON books.authorId = authors.id;

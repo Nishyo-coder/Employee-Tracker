@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
   user: 'root',
 
   // Be sure to update with your own MySQL password!
-  password: 'Chief12!',
+  password: '',
   database: 'EP_TrackerDB',
 });
 

@@ -278,36 +278,36 @@ const addnewRole = () => {
     });
 };
 
-const EmployeeandRoleSearch = () => {
-  inquirer
-    .prompt({
-      name: 'last_name',
-      type: 'input',
-      message: 'Search for an employee by last name',
-    })
-    .then((answer) => {
-      let query =
-        'SELECT employee.last_name, employee.first_name, employee.emp_id, employee.role_id ';
-      query +=
-        'FROM employee INNER JOIN ROLE ON (ROLE.title = employee.last_name AND ROLE.title ';
-      query +=
-        '= ROLE.title) WHERE (employee.emp_id = ? AND ROLE.emp_id = ?) ORDER BY ROLE.title, ROLE.emp_id';
-
-      connection.query(query, [answer.last_name, answer.last_name], (err, res) => {
-        console.log(`${res.length} matches found!`);
-        res.forEach(({ title, last_name, first_name}, i) => {
-          const num = i + 1;
-          console.log(
-            `${num} title: ${title} last_name: ${last_name} || first_name: ${first_name}`
-        );
-        }
-          );
+// const EmployeeandRoleSearch = () => {
+//   let query = 
+//   'SELECT employee.last_name, employee.first_name, ROLE.title, ROLE.SALARY ';
+//   query +=
+//   'FROM employee LEFT JOIN ROLE ON (ROLE.title = employee.last_name AND employee.last_name ORDER BY ROLE.title, employee.last_name';
+  
+//   connection.query(query, (err, res) => {
+//     // console.log(`${res.length} matches found!`);
+  
+//   // console.log('Selecting all employees...\n');
+//   // connection.query('SELECT * FROM employee', (err, res) => {
+//   //   if (err) throw err;
+//   //   // Log all results of the SELECT statement
+//   //   console.log(res);        
+      
+//       // connection.query(query, [answer.last_name], (err, res) => {
+//       //   console.log(`${res} matches found!`);
+//         // res.forEach(({ title, last_name, first_name}, i) => {
+//         //   const num = i + 1;
+//         //   console.log(
+//         //     `${num} title: ${title} last_name: ${last_name} || first_name: ${first_name}`
+        
+//         }
+//           );
 
       
-        runSearch();
-      });
-    });
-};
+//       EmployeeandRoleSearch();
+//       }
+    
+// ;
 
 connection.connect((err) => {
   if (err) throw err;
